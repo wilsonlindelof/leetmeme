@@ -7,8 +7,8 @@ var validate = function(input) {
 	for (var i = 0; i < input.length; i++) {//input is of type = [ "Leetmeme: Ice", "Ice: KittenService" ]
 		var dependency = input[i];
 		var package = dependency.split(": ")[0];
-		var dependent = dependency.split(": ")[1];
-		dependency_map[dependent] = 'NO_DEPENDENT';
+		//var dependent = dependency.split(": ")[1];
+		dependency_map[package] = 'NO_DEPENDENT';
 	}
 	
 	var dependents = Object.keys(dependency_map);
@@ -17,7 +17,7 @@ var validate = function(input) {
 		result += dependents[i] + ', ';
 	}
 	
-	return result.substring(0, result.length - 3);//to remove the ', ' from the last entry
+	return result.substring(0, result.length - 2);//to remove the ', ' from the last entry
 	
 };
 

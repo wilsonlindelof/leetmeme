@@ -36,17 +36,35 @@ describe('DependencyValidator', function() {
 });
 
 describe('DependencyValidator', function() {
-	it('rejects circular references', function() {
-		var DependencyValidator = require('./dependency_validator.js');
-		var result = DependencyValidator.validate(["Leetmeme: Ice", "Ice: Leetmeme"]);
-		expect(result).to.equal('INVALID - CIRCULAR REFERENCE');				
-	});
-});
-
-describe('DependencyValidator', function() {
 	it('returns a strings list', function() {
 		var DependencyValidator = require('./dependency_validator.js');
 		var result = DependencyValidator.validate(["Leetmeme: Ice", "Ice: Leetmeme"]);
 		expect(result).to.be.a('string');		
+	});
+});
+
+describe('DependencyValidator', function() {
+	it('correctly returns lists with no dependencies', function() {
+		var DependencyValidator = require('./dependency_validator.js');
+		var result = DependencyValidator.validate(["KittenService: ", "CamelCaser: "]);
+		expect(result).to.be.a('string');		
+		expect(result).to.be.oneOf(['KittenService, CamelCaser', 'CamelCaser, KittenService']);//either should be valid without any dependencies and no instructions requiring alphabetical sorting
+	});
+});
+
+describe('DependencyValidator', function() {
+	it('correctly returns simple dependencies', function() {
+		var DependencyValidator = require('./dependency_validator.js');
+		var result = DependencyValidator.validate(["KittenService: CamelCaser", "CamelCaser: "]);
+		expect(result).to.be.a('string');		
+		expect(result).to.equal('CamelCaser, KittenService');
+	});
+});
+
+describe('DependencyValidator', function() {
+	it('rejects circular references', function() {
+		var DependencyValidator = require('./dependency_validator.js');
+		var result = DependencyValidator.validate(["Leetmeme: Ice", "Ice: Leetmeme"]);
+		expect(result).to.equal('INVALID - CIRCULAR REFERENCE');				
 	});
 });
