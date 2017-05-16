@@ -68,7 +68,7 @@ describe('DependencyValidator', function() {
 });
 
 describe('DependencyValidator', function() {
-	it('correctly returns the explicitly defined valid input example 1 milestone', function() {
+	it('correctly returns the explicitly defined valid input example 2 milestone', function() {
 		var DependencyValidator = require('./dependency_validator.js');
 		var result = DependencyValidator.validate(["KittenService: ", "Leetmeme: Cyberportal", "Cyberportal: Ice", "CamelCaser: KittenService", "Fraudstream: Leetmeme", "Ice: "]);		
 		expect(result).to.be.oneOf(['KittenService, Ice, Cyberportal, Leetmeme, CamelCaser, Fraudstream',
@@ -88,6 +88,14 @@ describe('DependencyValidator', function() {
 	it('rejects circular references', function() {
 		var DependencyValidator = require('./dependency_validator.js');
 		var result = DependencyValidator.validate(["Leetmeme: Ice", "Ice: Leetmeme"]);
+		expect(result).to.equal('INVALID - CIRCULAR REFERENCE');				
+	});
+});
+
+describe('DependencyValidator', function() {
+	it('correctly rejects the explicitly defined invalid input example', function() {
+		var DependencyValidator = require('./dependency_validator.js');
+		var result = DependencyValidator.validate(["KittenService: ", "Leetmeme: Cyberportal", "Cyberportal: Ice", "CamelCaser: KittenService", "Fraudstream: Leetmeme", "Ice: Leetmeme"]);
 		expect(result).to.equal('INVALID - CIRCULAR REFERENCE');				
 	});
 });
