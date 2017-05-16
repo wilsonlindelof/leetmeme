@@ -68,6 +68,23 @@ describe('DependencyValidator', function() {
 });
 
 describe('DependencyValidator', function() {
+	it('correctly returns the explicitly defined valid input example 1 milestone', function() {
+		var DependencyValidator = require('./dependency_validator.js');
+		var result = DependencyValidator.validate(["KittenService: ", "Leetmeme: Cyberportal", "Cyberportal: Ice", "CamelCaser: KittenService", "Fraudstream: Leetmeme", "Ice: "]);		
+		expect(result).to.be.oneOf(['KittenService, Ice, Cyberportal, Leetmeme, CamelCaser, Fraudstream',
+		'Ice, KittenService, Cyberportal, Leetmeme, CamelCaser, Fraudstream',
+		'KittenService, Ice, Cyberportal, CamelCaser, Leetmeme, Fraudstream',
+		'Ice, KittenService, Cyberportal, CamelCaser, Leetmeme, Fraudstream',
+		'KittenService, Ice, CamelCaser, Cyberportal, Leetmeme, Fraudstream',
+		'Ice, KittenService, CamelCaser, Cyberportal, Leetmeme, Fraudstream',]);
+	});//there are actually many valid configurations for this test. 
+	//I left it liket his with Ice and KittenService up front since they both have no dependencies, 
+	//but technically as long as the only constraint is to have the order such that a package's dependency precedes the package, 
+	//even something like "Ice, Cyberportal, Leetmeme, Fraudstream, KittenService, CamelCaser" would be technically valid. 
+	//tricky... to get a full test suite you would either need a lot of permutations or replicating some of the logic in the test suite.
+});
+
+describe('DependencyValidator', function() {
 	it('rejects circular references', function() {
 		var DependencyValidator = require('./dependency_validator.js');
 		var result = DependencyValidator.validate(["Leetmeme: Ice", "Ice: Leetmeme"]);

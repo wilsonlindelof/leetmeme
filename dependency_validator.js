@@ -27,7 +27,9 @@ var validate = function(input) {
 		}		
 	}
 	
+	
 	while (added.length < dependents.length) {//keep going until they have all been added. This could also be done with recursion
+		var stuck_in_circular = true;
 		for (var i = 0; i < dependents.length; i++) {
 			var package = dependents[i];
 			var dependent = dependency_map[package];
@@ -36,8 +38,12 @@ var validate = function(input) {
 				if (added.indexOf(dependent) != -1) {//if the package's dependency has been added already, its ready to add
 					result += package + ', ';
 					added.push(package);
+					stuck_in_circular = false;
 				}
 			}		
+		}
+		if (stuck_in_circular) {//it hit a circular reference
+			return 'INVALID - CIRCULAR REFERENCE';
 		}
 	}
 	
