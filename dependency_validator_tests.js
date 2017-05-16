@@ -14,3 +14,20 @@ describe('DependencyValidator', function() {
 		expect(result).to.not.be.undefined;
 	});
 });
+
+describe('DependencyValidator', function() {
+	it('validates its a array of strings', function() {
+		var DependencyValidator = require('./dependency_validator.js');
+		var result = DependencyValidator.validate('some input string');
+		expect(result).to.equal('INVALID');
+		
+		result = DependencyValidator.validate(58934);
+		expect(result).to.equal('INVALID');
+		
+		result = DependencyValidator.validate({'some': 'object'});
+		expect(result).to.equal('INVALID');
+		
+		result = DependencyValidator.validate();
+		expect(result).to.equal('INVALID');
+	});
+});
