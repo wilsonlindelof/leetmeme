@@ -38,7 +38,7 @@ describe('DependencyValidator', function() {
 describe('DependencyValidator', function() {
 	it('returns a strings list', function() {
 		var DependencyValidator = require('./dependency_validator.js');
-		var result = DependencyValidator.validate(["Leetmeme: Ice", "Ice: Leetmeme"]);
+		var result = DependencyValidator.validate(["Leetmeme: Ice", "Ice: "]);
 		expect(result).to.be.a('string');		
 	});
 });
@@ -46,8 +46,7 @@ describe('DependencyValidator', function() {
 describe('DependencyValidator', function() {
 	it('correctly returns lists with no dependencies', function() {
 		var DependencyValidator = require('./dependency_validator.js');
-		var result = DependencyValidator.validate(["KittenService: ", "CamelCaser: "]);
-		expect(result).to.be.a('string');		
+		var result = DependencyValidator.validate(["KittenService: ", "CamelCaser: "]);				
 		expect(result).to.be.oneOf(['KittenService, CamelCaser', 'CamelCaser, KittenService']);//either should be valid without any dependencies and no instructions requiring alphabetical sorting
 	});
 });
@@ -55,9 +54,16 @@ describe('DependencyValidator', function() {
 describe('DependencyValidator', function() {
 	it('correctly returns simple dependencies', function() {
 		var DependencyValidator = require('./dependency_validator.js');
-		var result = DependencyValidator.validate(["KittenService: CamelCaser", "CamelCaser: "]);
-		expect(result).to.be.a('string');		
+		var result = DependencyValidator.validate(["KittenService: CamelCaser", "CamelCaser: "]);		
 		expect(result).to.equal('CamelCaser, KittenService');
+	});
+});
+
+describe('DependencyValidator', function() {
+	it('correctly returns more nested dependencies', function() {
+		var DependencyValidator = require('./dependency_validator.js');
+		var result = DependencyValidator.validate(["KittenService: CamelCaser", "CamelCaser: Ice", "Leetmeme: ", "Ice: Leetmeme"]);		
+		expect(result).to.equal('Leetmeme, Ice, CamelCaser, KittenService');
 	});
 });
 
