@@ -42,3 +42,11 @@ describe('DependencyValidator', function() {
 		expect(result).to.equal('INVALID - CIRCULAR REFERENCE');				
 	});
 });
+
+describe('DependencyValidator', function() {
+	it('returns a strings list', function() {
+		var DependencyValidator = require('./dependency_validator.js');
+		var result = DependencyValidator.validate(["Leetmeme: Ice", "Ice: Leetmeme"]);
+		expect(result).to.be.a('string');		
+	});
+});
